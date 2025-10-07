@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h2 class="results-title">📺 Your Watchlist</h2>
+
+  <div ng-if="watchlist.length === 0" class="no-results">
+    <div class="no-results-icon"><i class="fas fa-bookmark"></i></div>
+    <h3>No items in your watchlist</h3>
+    <p>Start adding some favorites!</p>
+  </div>
+
+  <div class="movie-grid" ng-if="watchlist.length > 0">
+    <div class="movie-card" ng-repeat="item in watchlist">
+      <div class="movie-poster">
+        <img ng-src="{{ item.poster_path ? 'https://image.tmdb.org/t/p/w500' + item.poster_path : 'https://via.placeholder.com/500x750?text=No+Image' }}" alt="{{item.title || item.name}}">
+        <div class="action-buttons">
+          <button class="action-btn watchlisted" ng-click="remove(item.id)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+      <div class="movie-info">
+        <h4 class="movie-title">{{item.title || item.name}}</h4>
+        <div class="movie-meta">
+          <span class="genre-tag">{{item.media_type || 'Movie'}}</span>
+          <div class="rating"><i class="fas fa-star star"></i> {{item.vote_average}}</div>
+        </div>
+        <a class="btn btn-primary btn-sm mt-2" href="#!/details/{{item.media_type || 'movie'}}/{{item.id}}">
+          🔍 View Details
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+

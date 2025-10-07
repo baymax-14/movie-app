@@ -1,0 +1,603 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: #0f0f0f;
+  --primary-color: #e50914;
+  --primary-hover: #b20710;
+  --white: #ffffff;
+  --gray-dark: #e5e5e5;
+  --border-color: #2c2c2c;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: var(--bg-color);
+  min-height: 100vh;
+  color: var(--gray-dark);
+}
+
+/* === Header === */
+.header {
+  background: #141414;
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.logo h1 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--primary-color);
+}
+
+/* === Search Bar === */
+.search-box {
+  position: relative;
+  margin: 2rem auto 1rem;
+  max-width: 800px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 2rem;
+  font-size: 1rem;
+  background: #1c1c1c;
+  color: white;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.filter-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filter-toggle:hover {
+  background: var(--primary-hover);
+}
+
+/* === Filters (slide down animation) === */
+.filters {
+  background: rgba(28, 28, 28, 0.95);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid #333;
+  margin: 1rem auto;
+  max-width: 1000px;
+  display: none;
+  overflow: hidden;
+  transform-origin: top;
+}
+
+.filters.show {
+  display: block;
+  animation: slideDown 0.35s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: scaleY(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.2rem;
+  align-items: end;
+}
+
+.filter-group label {
+  display: block;
+  color: var(--gray-dark);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.filter-group select,
+.filter-group input {
+  width: 100%;
+  min-width: 180px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  border: 1px solid #444;
+  background: #1c1c1c;
+  color: #fff;
+  font-size: 0.9rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(229, 9, 20, 0.6);
+}
+
+.clear-filters {
+  justify-self: end;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 999px;
+  background: #2c2c2c;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.clear-filters:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+/* === Movie Grid === */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.movie-card {
+  background: #1c1c1c;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.movie-poster {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.movie-card:hover .movie-poster img {
+  transform: scale(1.1);
+}
+
+.movie-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  opacity: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  transition: opacity 0.4s ease;
+}
+
+.movie-card:hover .movie-overlay {
+  opacity: 1;
+}
+
+/* === Watchlist Icon === */
+.action-buttons {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.action-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--primary-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.action-btn.watchlisted {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* === Movie Info === */
+.movie-info {
+  padding: 1rem;
+}
+
+.movie-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  color: var(--white);
+}
+
+/* === Badge Row (Movie / Rating / Details) === */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.genre-tag,
+.rating,
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.genre-tag {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.rating {
+  background: #2c2c2c;
+  color: #fbbf24;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: #fff;
+  transition: background 0.3s, transform 0.2s;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* === No Results === */
+.no-results {
+  text-align: center;
+  padding: 2rem;
+}
+
+.no-results-icon {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+/* ===== Details Page ===== */
+.details-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background: #111;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.poster-section {
+  flex: 1 1 300px;
+  max-width: 350px;
+}
+
+.poster-img {
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.info-section {
+  flex: 2 1 500px;
+  color: #fff;
+}
+
+.info-section .movie-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.info-section .year {
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+.tagline {
+  font-style: italic;
+  color: #bbb;
+  margin-bottom: 1rem;
+}
+
+.meta {
+  margin-bottom: 1rem;
+}
+
+.genre-badge {
+  background: #e50914;
+  color: #fff;
+  padding: 0.3rem 0.7rem;
+  margin-right: 0.4rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+}
+
+.rating {
+  margin-left: 0.5rem;
+  color: gold;
+  font-weight: bold;
+}
+
+.overview {
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+/* ===== Cast Section ===== */
+.cast-section h3 {
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.cast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.cast-card {
+  text-align: center;
+  color: #fff;
+}
+
+.cast-card img {
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.cast-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.cast-role {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* ===== Recommendations ===== */
+.recommendations h3 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.recommendations .movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.recommendations .movie-card {
+  background: #1c1c1c;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.recommendations .movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.recommendations img {
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.rec-title {
+  font-size: 0.9rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Watchlist Button */
+.watchlist-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #e50914;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.05rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  box-shadow: 0 6px 20px rgba(229,9,20,0.18);
+}
+
+.watchlist-btn i { font-size: 1rem; }
+
+.watchlist-btn:hover {
+  transform: translateY(-3px);
+  background: #b20710;
+  box-shadow: 0 8px 26px rgba(229,9,20,0.25);
+}
+
+/* "Added" state */
+.watchlist-btn.added {
+  background: #21d07a;
+  box-shadow: 0 6px 20px rgba(33,208,122,0.18);
+  color: #042a18;
+}
+.watchlist-btn.added:hover {
+  background: #1dbf6b;
+  transform: translateY(-3px);
+}
+
+/* Center the whole page content and give breathing room */
+.container,
+.page-container,
+.section {
+  max-width: 1200px;       /* adjust to taste: 1100–1400 */
+  margin: 0 auto;          /* center horizontally */
+  padding: 0 32px;         /* side gutters */
+}
+
+/* Section titles (Search Results, Popular, etc.) */
+.section-title,
+.results-title,
+h3.results-title {
+  margin: 28px 0 16px;
+  padding-left: 4px;
+  font-weight: 700;
+}
+
+/* Perfectly aligned, responsive card grid */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;               /* space between cards */
+  align-items: start;      /* keep tops aligned */
+  justify-items: center;   /* center cards in their cells */
+  margin: 0 auto;          /* center the grid itself */
+  width: 100%;
+}
+
+/* Make each card fill its grid cell cleanly */
+.movie-card {
+  width: 100%;
+  max-width: 240px;        /* keeps consistent card width */
+}
+
+/* Poster sizing so rows line up nicely */
+.movie-poster {
+  height: 320px;           /* same height for all posters */
+  overflow: hidden;
+  border-radius: 12px;
+}
+.movie-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Extra breathing room below filters */
+.filters { margin-bottom: 32px; }
+
+/* Small screens */
+@media (max-width: 992px) {
+  .container,
+  .page-container,
+  .section { padding: 0 20px; }
+  .movie-poster { height: 300px; }
+}
+@media (max-width: 600px) {
+  .movie-poster { height: 260px; }
+}
+
+

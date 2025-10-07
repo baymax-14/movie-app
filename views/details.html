@@ -1,0 +1,56 @@
+<!-- views/details.html -->
+<div class="details-container container mt-4" ng-controller="DetailsController">
+  <div class="details-card">
+    
+    <!-- Poster on the left -->
+    <div class="poster-section">
+      <img ng-src="https://image.tmdb.org/t/p/w500{{details.poster_path}}" 
+           alt="{{details.title || details.name}}" 
+           class="poster-img"
+           onerror="this.src='https://via.placeholder.com/400x600?text=No+Image'">
+    </div>
+
+    <!-- Info on the right -->
+    <div class="info-section">
+      <h2 class="movie-title">
+        {{details.title || details.name}} 
+        <span class="year">
+          ({{ (details.release_date || details.first_air_date) | date:'yyyy' }})
+        </span>
+      </h2>
+
+      <p class="tagline" ng-if="details.tagline">{{details.tagline}}</p>
+      
+      <div class="meta">
+        <span class="badge genre-badge" ng-repeat="g in details.genres">{{g.name}}</span>
+        <span class="rating"><i class="fas fa-star"></i> {{details.vote_average | number:1}}</span>
+      </div>
+
+      <p class="overview">{{details.overview}}</p>
+
+      <!-- Watchlist Button -->
+      <button class="watchlist-btn"
+              ng-class="{ 'added': isInWatchlist(details.id) }"
+              ng-click="toggleWatchlist(details)">
+        <i class="fas" ng-class="isInWatchlist(details.id) ? 'fa-check' : 'fa-bookmark'"></i>
+        <span>{{ isInWatchlist(details.id) ? 'Added' : 'Add to Watchlist' }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  <div class="recommendations mt-5">
+    <h3>🎬 You may also like:</h3>
+    <div class="movie-grid">
+      <div class="movie-card" ng-repeat="rec in recommendations">
+        <img ng-src="https://image.tmdb.org/t/p/w300{{rec.poster_path}}" 
+             alt="{{rec.title || rec.name}}" 
+             onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+        <h5 class="rec-title">{{rec.title || rec.name}}</h5>
+        <a class="btn btn-primary btn-sm mt-2" href="#!/details/{{rec.media_type || type}}/{{rec.id}}">
+          🔍 View Details
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

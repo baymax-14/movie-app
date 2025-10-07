@@ -1,0 +1,135 @@
+<!-- views/search.html -->
+<div class="container mt-4">
+
+  <!-- Search Bar -->
+  <div class="search-box mb-4">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" ng-model="query" class="search-input"
+           placeholder="Search for movies or TV shows..." ng-change="searchAuto()">
+    <button class="filter-toggle" ng-click="toggleFilters()" aria-label="Toggle filters">
+      <i class="fas fa-filter"></i>
+    </button>
+  </div>
+
+    <!-- Collapsible Filters -->
+  <div class="filters" ng-class="{show: showFilters}">
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Type</label>
+        <select ng-model="type" ng-change="applyFilters()">
+          <option value="movie">Movies</option>
+          <option value="tv">TV Shows</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Genre</label>
+        <select ng-model="selectedGenre" ng-options="g.id as g.name for g in genres"
+                ng-change="applyFilters()">
+          <option value="">All</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Year</label>
+        <input type="number" ng-model="selectedYear" ng-change="applyFilters()" placeholder="e.g. 2024">
+      </div>
+
+      <div class="filter-group">
+        <label>Minimum Rating</label>
+        <select ng-model="selectedRating" ng-change="applyFilters()">
+          <option value="">All Ratings</option>
+          <option value="9">9+</option>
+          <option value="8">8+</option>
+          <option value="7">7+</option>
+          <option value="6">6+</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Sort By</label>
+        <select ng-model="selectedSort" ng-change="applyFilters()">
+          <option value="popularity.desc">Popularity</option>
+          <option value="release_date.desc">Release Date</option>
+          <option value="vote_average.desc">Rating</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>&nbsp;</label>
+        <div>
+          <button class="clear-filters" ng-click="clearFilters()">Clear Filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div ng-if="loading" class="text-center">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Results / No results -->
+  <h3 class="results-title mt-4">🔍 Search Results</h3>
+
+  <div ng-if="!loading && results.length === 0" class="no-results">
+    <div class="no-results-icon"><i class="fas fa-search"></i></div>
+    <h3>No results found</h3>
+    <p>Try adjusting your search or filters</p>
+  </div>
+
+  <div class="movie-grid" ng-if="results.length > 0">
+    <div class="movie-card" ng-repeat="item in results track by item.id">
+      <div class="movie-poster">
+        <img ng-src="https://image.tmdb.org/t/p/w500{{item.poster_path}}" 
+             alt="{{item.title || item.name}}" onerror="this.src='https://via.placeholder.com/500x750?text=No+Image'">
+        <div class="action-buttons">
+          <button class="action-btn" ng-class="{'watchlisted': isInWatchlist(item.id)}"
+                  ng-click="toggleWatchlist(item)">
+            <i class="fas fa-bookmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="movie-info">
+        <h4 class="movie-title">{{item.title || item.name}}</h4>
+        <div class="badge-row">
+        <span class="genre-tag">Movie</span>
+        <div class="rating"><i class="fas fa-star star"></i> {{movie.vote_average}}</div>
+        <a class="btn btn-primary btn-sm mt-2" 
+   ng-href="#!/details/{{ item.media_type ? item.media_type : (type || 'movie') }}/{{item.id}}">
+  🔍 View Details
+</a>
+
+
+        </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular (keeps the same styling) -->
+  <h3 class="results-title mt-5">🔥 Popular</h3>
+  <div class="movie-grid">
+    <div class="movie-card" ng-repeat="movie in popular track by movie.id">
+      <div class="movie-poster">
+        <img ng-src="https://image.tmdb.org/t/p/w500{{movie.poster_path}}" alt="{{movie.title}}"
+             onerror="this.src='https://via.placeholder.com/500x750?text=No+Image'">
+        <div class="action-buttons">
+          <button class="action-btn" ng-class="{'watchlisted': isInWatchlist(movie.id)}" ng-click="toggleWatchlist(movie)">
+            <i class="fas fa-bookmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="movie-info">
+        <h4 class="movie-title">{{movie.title}}</h4>
+        <div class="movie-meta">
+          <span class="genre-tag">Movie</span>
+          <div class="rating"><i class="fas fa-star star"></i> {{movie.vote_average}}</div>
+        </div>
+        <a class="btn btn-primary btn-sm mt-2" href="#!/details/movie/{{movie.id}}">🔍 View Details</a>
+      </div>
+    </div>
+  </div>
+
+</div>

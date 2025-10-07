@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="movieApp">
+<head>
+  <meta charset="UTF-8">
+  <title>CineScope - Movie/TV Recommendation System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+  <script src="app.js"></script>
+  <script src="services/tmdbService.js"></script>
+  <script src="services/watchlistService.js"></script>
+  <script src="controllers/searchController.js"></script>
+  <script src="controllers/watchlistController.js"></script>
+  <script src="controllers/detailsController.js"></script>
+  <script src="controllers/trendingController.js"></script>
+</head>
+<body>
+
+  <!-- CineScope Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-play"></i>
+        </div>
+        <h1>CineScope</h1>
+      </div>
+      <nav class="nav">
+        <a href="#!/search" ng-class="{'active': $location.path() === '/search'}">Discover</a>
+        <a href="#!/trending" ng-class="{'active': $location.path() === '/trending'}">Trending</a>
+        <a href="#!/watchlist" ng-class="{'active': $location.path() === '/watchlist'}">Watchlist</a>
+      </nav>
+     </div>
+  </header>
+
+  <!-- Angular Views -->
+  <div ng-view></div>
+
+</body>
+</html>
+
+

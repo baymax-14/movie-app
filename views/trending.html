@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h2 class="results-title">🔥 Trending Today</h2>
+
+  <!-- Loading Spinner -->
+  <div ng-if="loading" class="text-center">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Movie Grid -->
+  <div class="movie-grid" ng-if="!loading && trending.length > 0">
+    <div class="movie-card" ng-repeat="item in trending">
+      <div class="movie-poster">
+        <img ng-src="https://image.tmdb.org/t/p/w500{{item.poster_path}}" alt="{{item.title || item.name}}">
+        <div class="action-buttons">
+          <button class="action-btn" ng-click="addToWatchlist(item)">
+            <i class="fas fa-bookmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="movie-info">
+        <h4 class="movie-title">{{item.title || item.name}}</h4>
+        <div class="movie-meta">
+          <span class="genre-tag">{{item.media_type | uppercase}}</span>
+          <div class="rating"><i class="fas fa-star star"></i> {{item.vote_average}}</div>
+        </div>
+        <a class="btn btn-primary btn-sm mt-2" href="#!/details/{{item.media_type}}/{{item.id}}">
+          🔍 View Details
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
